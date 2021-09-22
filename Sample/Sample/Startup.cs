@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,8 @@ using Microsoft.OpenApi.Models;
 using Sample.Common;
 using Sample.DAL;
 using Sample.Impl.Services.ToDoTasks;
+using Sample.Web.Requirements;
+using Sample.Web.Requirements.Handlers;
 
 namespace Sample
 {
@@ -47,9 +50,14 @@ namespace Sample
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("OnlyForAleksei", policy =>
-                    policy.RequireClaim("firstName", "Aleksei"));
+                options.AddPolicy("OnlyForAlekseiAndAtLeast18", policy =>
+                {
+                    policy.RequireClaim("firstName", "Aleksei");
+                    policy.Requirements.Add(new MinimumAgeRequirement(18));
+                });
             });
+
+            services.AddSingleton<IAuthorizationHandler, MinimumAgeHandler>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

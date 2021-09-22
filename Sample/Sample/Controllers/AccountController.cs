@@ -64,7 +64,8 @@ namespace Sample.Web.Controllers
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login),
                 new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role),
-                new Claim("firstName", user.FirstName)
+                new Claim("firstName", user.FirstName),
+                new Claim("age", user.Age.ToString())
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, "Token", 
