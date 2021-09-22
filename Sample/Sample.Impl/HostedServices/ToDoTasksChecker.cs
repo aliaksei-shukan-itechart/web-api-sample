@@ -10,9 +10,9 @@ namespace Sample.Impl.HostedServices
 {
     public class ToDoTasksChecker : BackgroundService
     {
-        public IServiceProvider Services { get; set; }
-
         private readonly ILogger<ToDoTasksChecker> _logger;
+
+        public IServiceProvider Services { get; set; }
 
         public ToDoTasksChecker(
             ILogger<ToDoTasksChecker> logger,
@@ -22,13 +22,6 @@ namespace Sample.Impl.HostedServices
             Services = services;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-        {
-            _logger.LogInformation("Checker Service is running");
-
-            await DoWork(stoppingToken);
-        }
-
         public override async Task StopAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation("Checker Service is stopping.");
@@ -36,6 +29,12 @@ namespace Sample.Impl.HostedServices
             await base.StopAsync(stoppingToken);
         }
 
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            _logger.LogInformation("Checker Service is running");
+
+            await DoWork(stoppingToken);
+        }
 
         private async Task DoWork(CancellationToken stoppingToken)
         {

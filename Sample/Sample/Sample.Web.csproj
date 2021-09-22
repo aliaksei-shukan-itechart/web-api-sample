@@ -5,10 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.10" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Sample.Common\Sample.Common.csproj" />
     <ProjectReference Include="..\Sample.DAL\Sample.DAL.csproj" />
     <ProjectReference Include="..\Sample.Impl\Sample.Impl.csproj" />
   </ItemGroup>
