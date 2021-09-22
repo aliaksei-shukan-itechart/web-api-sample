@@ -20,7 +20,7 @@ namespace Sample.Web.Controllers
             _tasksService = tasksService;
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin", Policy = "OnlyForAleksei")]
         [HttpGet]
         public async Task<IEnumerable<ToDoItem>> GetAll()
         {

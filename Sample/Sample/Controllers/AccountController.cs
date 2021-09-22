@@ -14,8 +14,10 @@ namespace Sample.Web.Controllers
     {
         private List<Account> users = new List<Account>
         {
-            new Account { Login = "admin@admin.com", Password = "qwerty123", Role = "admin" },
-            new Account { Login = "test@test.com", Password = "qwerty123", Role = "user" }
+            new Account { Login = "admin@admin.com", Password = "qwerty123", Role = "admin", Age = 18, FirstName = "Aleksei", LastName = "Shukan" },
+            new Account { Login = "admin2@admin.com", Password = "qwerty123", Role = "admin", Age = 18, FirstName = "Petr", LastName = "Shukan" },
+            new Account { Login = "admin3@admin.com", Password = "qwerty123", Role = "admin", Age = 17, FirstName = "Aleksei", LastName = "Shukan" },
+            new Account { Login = "test@test.com", Password = "qwerty123", Role = "user", Age = 17, FirstName = "Petr", LastName = "Petrov" }
         };
 
         [HttpPost("/token")]
@@ -61,7 +63,8 @@ namespace Sample.Web.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role)
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role),
+                new Claim("firstName", user.FirstName)
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, "Token", 

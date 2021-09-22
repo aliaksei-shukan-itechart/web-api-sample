@@ -39,9 +39,18 @@ namespace Sample
                         ValidateIssuerSigningKey = true
                     };
                 });
+
             services.AddDbContext<DataContext>(opt =>
                 opt.UseInMemoryDatabase("Sample"));
+
             services.AddScoped<ITasksService, TasksService>();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("OnlyForAleksei", policy =>
+                    policy.RequireClaim("firstName", "Aleksei"));
+            });
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
