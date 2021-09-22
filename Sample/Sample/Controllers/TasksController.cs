@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Sample.DAL.Models;
 using Sample.Impl.Services.ToDoTasks;
 using System;
@@ -19,6 +20,7 @@ namespace Sample.Web.Controllers
             _tasksService = tasksService;
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public async Task<IEnumerable<ToDoItem>> GetAll()
         {
