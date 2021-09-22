@@ -16,7 +16,7 @@ namespace Sample.Impl.Services.ToDoTasks
             _context = context;
         }
 
-        public async void CreateAsync(ToDoItem item)
+        public async Task CreateAsync(ToDoItem item)
         {
             if (item == null)
             {
@@ -28,7 +28,7 @@ namespace Sample.Impl.Services.ToDoTasks
             await _context.SaveChangesAsync();
         }
 
-        public async void DeleteAsync(int? id)
+        public async Task DeleteAsync(int? id)
         {
             if (!id.HasValue)
             {
@@ -69,21 +69,24 @@ namespace Sample.Impl.Services.ToDoTasks
             return item;
         }
 
-        public async void UpdateAsync(ToDoItem item)
+        public async Task UpdateAsync(int? id, ToDoItem item)
         {
-            if (item == null)
+            if (id == null)
             {
                 throw new System.Exception("Requested id is null!");
             }
 
-            var updatingItem = await _context.ToDoItems.FindAsync(item.Id);
+            var updatingItem = await _context.ToDoItems.FindAsync(id);
 
             if (updatingItem == null)
             {
                 throw new System.Exception("You are trying to update not existing entity!");
             }
 
-            _context.ToDoItems.Update(item);
+            updatingItem.Title = item.Title;
+            updatingItem.Description = item.Description;
+            updatingItem.ExpirationTime = item.ExpirationTime;
+            updatingItem.IsCompleted = item.IsCompleted;
 
             await _context.SaveChangesAsync();
         }

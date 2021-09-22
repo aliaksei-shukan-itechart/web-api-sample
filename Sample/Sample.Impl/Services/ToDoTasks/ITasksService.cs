@@ -10,10 +10,10 @@ namespace Sample.Impl.Services.ToDoTasks
 
         Task<ToDoItem> GetAsync(int? id);
 
-        void DeleteAsync(int? id);
+        Task DeleteAsync(int? id);
 
-        void UpdateAsync(ToDoItem item);
+        Task UpdateAsync(int? id, ToDoItem item);
 
-        void CreateAsync(ToDoItem item);
+        Task CreateAsync(ToDoItem item);
     }
 }

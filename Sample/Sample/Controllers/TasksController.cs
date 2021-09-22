@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Sample.DAL.Models;
+using Sample.Impl.Services.ToDoTasks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,31 +12,41 @@ namespace Sample.Web.Controllers
     [ApiController]
     public class TasksController : ControllerBase
     {
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly ITasksService _tasksService;
+
+        public TasksController(ITasksService tasksService)
         {
-            return new string[] { "value1", "value2" };
+            _tasksService = tasksService;
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<ToDoItem>> GetAll()
+        {
+            return await _tasksService.GetAllAsync();
         }
 
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ToDoItem> Get(int id)
         {
-            return "value";
+            return await _tasksService.GetAsync(id);
         }
 
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task Post([FromBody] ToDoItem item)
         {
+            await _tasksService.CreateAsync(item);
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task Put(int id, [FromBody] ToDoItem item)
         {
+            await _tasksService.UpdateAsync(id, item);
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
+            await _tasksService.DeleteAsync(id);
         }
     }
 }

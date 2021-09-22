@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Sample.DAL;
+using Sample.Impl.Services.ToDoTasks;
 
 namespace Sample
 {
@@ -18,7 +21,9 @@ namespace Sample
 
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddDbContext<DataContext>(opt =>
+                opt.UseInMemoryDatabase("Sample"));
+            services.AddScoped<ITasksService, TasksService>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
