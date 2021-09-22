@@ -10,7 +10,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Sample.Common;
 using Sample.DAL;
+using Sample.Impl.Services.CustomLog;
 using Sample.Impl.Services.ToDoTasks;
+using Sample.Web.Middleware.Extensions;
 using Sample.Web.Requirements;
 using Sample.Web.Requirements.Handlers;
 
@@ -47,6 +49,7 @@ namespace Sample
                 opt.UseInMemoryDatabase("Sample"));
 
             services.AddScoped<ITasksService, TasksService>();
+            services.AddScoped<ICustomLogService, CustomLogService>();
 
             services.AddAuthorization(options =>
             {
@@ -68,6 +71,8 @@ namespace Sample
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseRequestInfoLogging();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
