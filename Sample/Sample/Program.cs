@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Sample.Impl.HostedServices;
 
 namespace Sample
 {
@@ -15,6 +17,10 @@ namespace Sample
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                })
+                .ConfigureServices(services => 
+                {
+                    services.AddHostedService<ToDoTasksChecker>();
                 });
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Sample.DAL.Models;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sample.Impl.Services.ToDoTasks
@@ -15,5 +16,7 @@ namespace Sample.Impl.Services.ToDoTasks
         Task UpdateAsync(int? id, ToDoItem item);
 
         Task CreateAsync(ToDoItem item);
+
+        Task CheckExpirationTimeAsync(CancellationToken token);
     }
 }

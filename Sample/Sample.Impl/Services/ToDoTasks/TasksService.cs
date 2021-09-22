@@ -3,6 +3,7 @@ using Sample.DAL;
 using Sample.DAL.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sample.Impl.Services.ToDoTasks
@@ -89,6 +90,24 @@ namespace Sample.Impl.Services.ToDoTasks
             updatingItem.IsCompleted = item.IsCompleted;
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task CheckExpirationTimeAsync(CancellationToken token)
+        {
+            while (!token.IsCancellationRequested)
+            {
+                foreach (var item in await _context.ToDoItems.ToListAsync())
+                {
+                    if (item.IsCompleted == false && item.ExpirationTime.ToUniversalTime() <= System.DateTime.UtcNow)
+                    {
+                        item.IsCompleted = true;
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+
+                await Task.Delay(5000, token);
+            }
         }
     }
 }
