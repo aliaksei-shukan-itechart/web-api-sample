@@ -62,6 +62,8 @@ namespace Sample
 
             services.AddSingleton<IAuthorizationHandler, MinimumAgeHandler>();
 
+            services.AddHealthChecks();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -88,6 +90,8 @@ namespace Sample
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseHealthChecks("/health");
 
             app.UseEndpoints(endpoints =>
             {
